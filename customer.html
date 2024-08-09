@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Customer Dashboard</title>
+ 
+    <style>
+footer {
+    padding: 50px 0;
+    color: #fff;
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.footer-block {
+    width: calc(20% - 20px); /* Adjust width as needed */
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.footer-block h5 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.footer-block p {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.footer-block ul {
+    padding-left: 0;
+    list-style: none;
+}
+
+.footer-block ul li {
+    margin-bottom: 5px;
+}
+
+.footer-block ul li a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.footer-block ul li a:hover {
+    color: #fff;
+}
+
+body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f8f8; /* Background color of the entire web page */
+    }
+
+    .sidebar {
+        background-color: #1d1f24; /* Background color of the sidebar */
+        color: #fff; /* Text color in the sidebar */
+        height: 100vh;
+        width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        position: fixed;
+        transition: width 0.3s;
+        z-index: 1;
+        overflow-x: hidden;
+    }
+
+    .sidebar a {
+        padding: 10px 20px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #fff;
+        transition: color 0.3s;
+    }
+
+    .sidebar a:hover {
+        color: #99ccff; /* Change to Twilio's brand color on hover */
+    }
+
+    .header {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: #1d1f24; /* Background color of the header */
+        padding: 10px;
+        z-index: 2;
+    }
+
+    .header-icon {
+        cursor: pointer;
+        color: #fff;
+        font-size: 1.5em;
+    }
+
+    .dashboard {
+        margin-left: 0;
+        background-color: #f8f8f8;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: margin-left 0.3s;
+    }
+
+    .welcome {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #1d1f24; /* Twilio's brand color */
+    }
+
+    .support-center {
+        font-weight: bold;
+        color: #1d1f24; /* Twilio's brand color */
+    }
+
+    .support-center-text {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .square-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .square {
+        width: 300px;
+        height: 300px;
+        border: 1px solid #ddd;
+        margin: 20px;
+        position: relative;
+    }
+
+    .square-button {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #1d1f24;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+        display: inline-block;
+        white-space: nowrap;
+    }
+
+    .square:nth-child(1) {
+        background-color: #f22f46; /* Twilio's brand color */
+        color: #fff;
+    }
+
+    .square:nth-child(2) {
+        background-color: #f9a52b; /* Twilio's brand secondary color */
+        color: #fff;
+    }
+
+    .square:nth-child(3) {
+        background-color: #34d1b1; /* Twilio's brand tertiary color */
+        color: #fff;
+    }
+
+    .square-img {
+        max-width: 30%;
+        height: auto;
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .square-text {
+        text-align: center;
+        position: absolute;
+        bottom: 50px;
+        left: 0;
+        right: 0;
+    }
+
+    .square-heading {
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .square-description {
+        font-size: 14px;
+        color: #fff;
+    }
+    H1{
+        text-align: center;
+        margin-left: 390px;
+    }
+</style>
+
+   </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+     
+ <a href="javascript:void(0)" class="header-icon" onclick="toggleSidebar()">&#9665;</a>
+        <a href="../TICKET/customer.html" class="sidebar-link">Home</a>
+        <a href="../TICKET/login.html" class="sidebar-link">Login</a>
+        <a href="../TICKET/login.html" class="sidebar-link">Sign Up</a>
+        <a href="../TICKET/logout.php" class="sidebar-link">Logout</a>
+    </div>
+    <div class="header">
+        <div class="header-icon" onclick="toggleSidebar()">
+            <h1>TICKETING SYSTEM</h1>  
+            <i class="fas fa-bars"></i> <!-- Font Awesome bars icon -->
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="welcome">Welcome</div>
+        <div class="support-center">Support Center</div> <!-- Added the support center text in bold -->
+        <div class="support-center-text">
+            Welcome to Support Center. You can contact us through a ticketing system. Your tickets will be answered by the staff.
+        </div>
+        
+        <div class="square-container">
+            <div class="square">
+                <img class="square-img" src="../TICKET/Images/ticket.png" alt="Image 1">
+                <a href="../TICKET/ticket.html" class="square-button">CREATE TICKET</a>
+                <div class="square-text">
+                    <p class="square-heading">Tickets</p>
+                    <p class="square-description">Send ticket through our support center and get a response to your doubts, suggestions, and issues.</p>
+                </div>
+            </div>
+            <div class="square">
+                <img class="square-img" src="../TICKET/Images/tick.png" alt="Image 2">
+                <a href="../TICKET/status.html" class="square-button">CHECK STATUS</a>
+                <div class="square-text">
+                    <p class="square-heading">Check Status</p>
+                    <p class="square-description">Check the status of your tickets and get updates on your inquiries.</p>
+                </div>
+            </div>
+            <div class="square">
+                <img class="square-img" src="../TICKET/Images/message.png" alt="Image 3">
+                <a href="../TICKET/cmessage.html" class="square-button">CONTACT SUPPORT</a>
+                <div class="square-text">
+                    <p class="square-heading">Contact Support</p>
+                    <p class="square-description">Contact our support team for assistance with any issues you encounter.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-dark">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-block" id="about">
+                    <h5>About</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at lorem magna.</p>
+                </div>
+                <div class="footer-block" id="categories">
+                    <h5>Categories</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Category 1</a></li>
+                        <li><a href="#">Category 2</a></li>
+                        <li><a href="#">Category 3</a></li>
+                        <li><a href="#">Category 4</a></li>
+                    </ul>
+                </div>
+                <div class="footer-block" id="help-support">
+                    <h5>Help & Support</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-block" id="follow-us">
+                    <h5>Follow Us</h5>
+                    <ul id="social-icons" class="list-unstyled d-flex">
+                        <li class="mr-3"><a href="#" class="text-dark"><i class="fab fa-facebook-f"></i></a></li>
+                        <li class="mr-3"><a href="#" class="text-dark"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#" class="text-dark"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                </div>
+               
+            </div>
+        </div>
+    </footer>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const dashboard = document.querySelector(".dashboard");
+
+            // Toggle the width of the sidebar
+            sidebar.style.width = sidebar.style.width === "200px" ? "0" : "200px";
+
+            // Adjust the margin-left of the dashboard based on the sidebar width
+            dashboard.style.marginLeft = sidebar.style.width === "200px" ? "200px" : "0";
+        }
+    </script>
+</body>
+</html>

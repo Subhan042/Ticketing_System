@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN PAGE</title>
+    <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+      <style>
+        body{
+          background-image: url('../TICKET/Images/login.jpg');
+          background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+ .password-container {
+  display: flex;
+  position: relative;
+  justify-content: space-between; /* Horizontally align password and icon */
+  width: 100%; /* Ensure full width within input container */
+  height: 100%;
+}
+
+.password-container i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px; /* Adjust the right position as needed */
+  
+}
+.error-message {
+  margin-bottom: 20px; /* Add margin top to create space between input and error message */
+  display: block; /* Ensure the error message is displayed as a block element */
+}
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    z-index: 9999;
+    max-height: 80%; /* Set maximum height for the popup */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+.popup-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+      </style>
+      
+  </head>
+  <body>
+    <div class="wrapper">
+      <div id="login-form" >
+        <h2>Login</h2>
+        <form action="../TICKET/login backend.php" method="post" onsubmit="return validateLogin()">
+          <div class="input-box" style="margin-bottom: 25px;">
+            <input type="text" name="login_email" placeholder="Enter your email">
+            <span id="error-login-email" class="error-message"></span>
+          </div>
+          <div class="input-box" style="margin-bottom: 25px;">
+          <div class="password-container">
+            <i class="fas fa-lock login_password-icon" onclick="togglePasswordVisibility('login_password', 'login_password-icon')"></i>
+        <input type="password" name="login_password" placeholder="Enter your password">
+      </div>
+    <span id="error-login-password" class="error-message"></span>
+
+    
+          </div>
+         
+            <a href="forgot_password.php">Forgot Password?</a>
+          <div class="input-box button">
+            <input type="submit" value="Login">
+          </div>
+          <div class="text">
+            <h3>Don't have an account? <a href="#" onclick="showRegistration()">Signup now</a></h3>
+          </div>
+        </form>
+      </div>
+      
+
+      <div id="registration-form" style="display: none;">
+        <h2>Registration</h2>
+        <form action="../TICKET/login backend.php" method="post" onsubmit="return validateRegistration()">
+          <div class="input-box" style="margin-bottom: 25px;">
+            <input type="text" name="register_first_name" placeholder="First Name" >
+            <span id="error-first-name" class="error-message"></span>
+          </div>
+          <div class="input-box" style="margin-bottom: 25px;">
+            <input type="text" name="register_last_name" placeholder="Last Name" >
+            <span id="error-last-name" class="error-message"></span>
+          </div>
+          <div class="input-box" style="margin-bottom: 25px;">
+            <input type="text" name="register_email" placeholder="Enter your email">
+            <span id="error-email" class="error-message"></span>
+          </div>
+          <div class="input-box" style="margin-bottom: 25px;">
+            <input type="text" name="register_phone" placeholder="Enter your phone number" >
+            <span id="error-phone" class="error-message"></span>
+          </div>
+          <div class="input-box" style="margin-bottom: 25px;">
+    <div class="password-container">
+      <i class="fas fa-lock register_password-icon" onclick="togglePasswordVisibility('register_password', 'register_password-icon')"></i>
+        <input type="password" name="register_password" placeholder="Create password">
+    </div>
+    <span id="error-password" class="error-message"></span>
+</div>
+          <div class="input-box" style="margin-bottom: 25px;">
+            <div class="password-container">
+              <i class="fas fa-lock register_confirm_password-icon" onclick="togglePasswordVisibility('confirm_password', 'register_confirm_password-icon')"></i>
+            <input type="password" name="confirm_password" placeholder="Confirm password" >
+          </div>
+          <span id="error-confirm-password" class="error-message"></span>
+        </div>
+        
+          <input type="checkbox" id="terms-checkbox" >
+          <label for="terms-checkbox">I agree to the <a href="#" onclick="openTermsPopup(); return false;">terms and conditions</a></label>
+          <span id="error-terms" class="error-message"></span>
+       
+         
+          <div class="input-box button">
+            <input type="submit" value="Register Now">
+          </div>
+          <div class="text">
+            <h3>Already have an account? <a href="#" onclick="showLogin()">Login now</a></h3>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="popup" id="terms-popup" style="display: none;">
+      <div class="popup-content">
+          <span class="popup-close" id="close-terms-popup">&times;</span>
+          <h2>Terms and Conditions</h2>
+  
+          <p><strong>1. Acceptance of Terms</strong></p>
+          <p>
+              By accessing or using this Ticketing System ("System"), you agree to comply with and be bound by these terms and conditions of use ("Terms"). If you do not agree to these Terms, please do not use this System.
+          </p>
+  
+          <p><strong>2. Information Accuracy</strong></p>
+          <p>
+              The information provided by the System is for general informational purposes only. We make no warranties about the accuracy, reliability, or completeness of this information. Do not rely on the information provided by the System as a substitute for professional advice or guidance.
+          </p>
+  
+          <p><strong>3. Support Services</strong></p>
+          <p>
+              The System provides support services for addressing queries and resolving issues related to ticketing. However, we do not guarantee the resolution of all queries or issues within a specified time frame.
+          </p>
+  
+          <p><strong>4. User Conduct</strong></p>
+          <p>
+              You agree not to engage in any conduct that could disrupt or interfere with the operation of the System or the use of the System by others. You must comply with all applicable laws and regulations when using this System.
+          </p>
+  
+          <p><strong>5. Privacy Policy</strong></p>
+          <p>
+              Your use of this System is governed by our Privacy Policy. By using this System, you consent to our collection, use, and sharing of information as described in the Privacy Policy.
+          </p>
+  
+          <p><strong>6. Limitation of Liability</strong></p>
+          <p>
+              To the fullest extent permitted by applicable law, we shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of this System, even if we have been advised of the possibility of such damages.
+          </p>
+  
+          <p><strong>7. Governing Law</strong></p>
+          <p>
+              These Terms are governed by and construed in accordance with the laws of [Your Jurisdiction]. Any disputes arising under or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts located in [Your Jurisdiction].
+          </p>
+  
+          <p><strong>8. Changes to Terms</strong></p>
+          <p>
+              We reserve the right to modify or revise these Terms at any time. Please check these Terms periodically for changes. Your continued use of this System after the posting of changes constitutes acceptance of those changes.
+          </p>
+  
+          <p>
+              By using this System, you acknowledge that you have read, understood, and agree to these Terms and Conditions of Use.
+          </p>
+  
+      </div>
+  </div>
+  
+
+
+<script>
+  function showRegistration() {
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('registration-form').style.display = 'block';
+  }
+
+  function showLogin() {
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('registration-form').style.display = 'none';
+  }
+  function openTermsPopup() {
+    document.getElementById('terms-popup').style.display = 'block';
+}
+
+/// Close the popup when clicking the "x" button
+document.getElementById('close-terms-popup').addEventListener('click', function() {
+    closeTermsPopup();
+});
+
+// Function to close the popup
+function closeTermsPopup() {
+    document.getElementById('terms-popup').style.display = 'none';
+}
+
+// Validate terms and conditions checkbox
+function validateTermsCheckbox() {
+    var termsCheckbox = document.getElementById('terms-checkbox');
+    var isValid = termsCheckbox.checked;
+    var termsError = document.getElementById('error-terms');
+
+    if (!isValid) {
+        termsError.innerText = '*Please accept the terms and conditions.';
+    } else {
+        termsError.innerText = '';
+    }
+
+    return isValid;
+}
+  function togglePasswordVisibility(passwordFieldId, iconClass) {
+    const passwordField = document.querySelector(`[name="${passwordFieldId}"]`);
+    const icon = document.querySelector(`.${iconClass}`);
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.classList.remove("fa-lock");
+        icon.classList.add("fa-lock-open");
+        icon.style.color = "black"; // Set icon color to black
+    } else {
+        passwordField.type = "password";
+        icon.classList.remove("fa-lock-open");
+        icon.classList.add("fa-lock");
+        icon.style.color = ""; // Reset icon color
+    }
+}
+
+
+
+
+
+
+  function validateLogin() {
+    var loginEmail = document.forms[0]["login_email"].value;
+    var loginPassword = document.forms[0]["login_password"].value;
+
+    var isValid = true; // Assume the form is valid by default
+
+    // Reset error messages
+    document.getElementById('error-login-email').innerText = '';
+    document.getElementById('error-login-password').innerText = '';
+
+    // Validate Login Email
+    if (loginEmail.trim() === '') {
+    document.getElementById('error-login-email').innerText = '*Email is required.';
+    isValid = false;
+} else if (!loginEmail.includes('@')) {
+    document.getElementById('error-login-email').innerText = '*Email must contain @.';
+    isValid = false;
+} else {
+    var domain = loginEmail.split('@')[1];
+    var allowedDomains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"]; // Add your allowed domains here
+
+    if (!allowedDomains.includes(domain)) {
+        document.getElementById('error-login-email').innerText = '*Invalid domain.';
+        isValid = false;
+    }
+}
+
+
+    if (loginPassword === '') {
+    document.getElementById('error-login-password').innerText = '*Password is required.';
+    isValid = false;
+} else if (!/(?=.*[A-Z])/.test(loginPassword)) {
+    document.getElementById('error-login-password').innerText = '*Password must contain at least one uppercase .';
+    isValid = false;
+} else if (!/(?=.*\W)/.test(loginPassword)) {
+    document.getElementById('error-login-password').innerText = '*Password must contain at least one symbol.';
+    isValid = false;
+} else if (!/(?=.*\d)/.test(loginPassword)) {
+    document.getElementById('error-login-password').innerText = '*Password must contain at least one number.';
+    isValid = false;
+} else if (loginPassword.length < 8 || loginPassword.length > 20) {
+    document.getElementById('error-login-password').innerText = '*Password should be between 8 and 20 characters.';
+    isValid = false;
+} else {
+    document.getElementById('error-login-password').innerText = '';
+}
+    
+
+    return isValid;
+  }
+  function hasRepetitiveLetters(str) {
+    for (let i = 0; i < str.length - 1; i++) {
+        if (str[i] === str[i + 1]) {
+            return true; // Found repetitive letters
+        }
+    }
+    return false; // No repetitive letters found
+}
+
+  function validateRegistration() {
+    var firstName = document.forms[1]["register_first_name"].value;
+    var lastName = document.forms[1]["register_last_name"].value;
+    var email = document.forms[1]["register_email"].value;
+    var phone = document.forms[1]["register_phone"].value;
+    var password = document.forms[1]["register_password"].value;
+    var confirmPassword = document.forms[1]["confirm_password"].value;
+    var isValidTerms = validateTermsCheckbox();
+
+    var isValid = true; // Assume the form is valid by default
+
+    // Reset error messages
+    document.getElementById('error-first-name').innerText = '';
+    document.getElementById('error-last-name').innerText = '';
+    document.getElementById('error-email').innerText = '';
+    document.getElementById('error-phone').innerText = '';
+    document.getElementById('error-password').innerText = '';
+    document.getElementById('error-confirm-password').innerText = '';
+
+    // Validate First Name
+    if (firstName === '') {
+      document.getElementById('error-first-name').innerText = '*First Name is required.';
+      isValid = false;
+    }  else if (!/^[A-Za-z ]+$/.test(firstName)) {
+    document.getElementById('error-first-name').innerText = '*First Name: Only letters and max two spaces.';
+    isValid = false;
+    }  else if (firstName.length < 3 || firstName.length > 50) {
+        document.getElementById('error-first-name').innerText = '*First Name should be between 3 and 50 characters.';
+        isValid = false;
+    } else if (hasRepetitiveLetters(firstName)) {
+        document.getElementById('error-first-name').innerText = '*First Name should not have repetitive letters.';
+        isValid = false;
+    }
+    // Validate Last Name
+    if (lastName === '') {
+      document.getElementById('error-last-name').innerText = '*Last Name is required.';
+      isValid = false;
+      }else if (!/^[A-Za-z ]+$/.test(lastName)) {
+    document.getElementById('error-last-name').innerText = '*Last Name: Only letters and max one space.';
+    isValid = false;
+      }else if (hasRepetitiveLetters(lastName)) {
+        document.getElementById('error-last-name').innerText = '*Last Name should not have repetitive letters.';
+        isValid = false;
+    }
+
+    // Validate Email
+    if (email.trim() === '') {
+    document.getElementById('error-email').innerText = '*Email is required.';
+    isValid = false;
+} else if (!email.includes('@')) {
+    document.getElementById('error-email').innerText = '*Email must contain @.';
+    isValid = false;
+}else if ( email.startsWith('.') || email.endsWith('.')) {
+    document.getElementById('error-email').innerText = '*Email should not start or end with dot.';
+    isValid = false;
+}
+ else {
+  var localPart = email.split('@')[0];
+    var domain = email.split('@')[1];
+    var allowedDomains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"];
+
+    if (!/[a-zA-Z]/.test(localPart)) {
+        document.getElementById('error-email').innerText = '*Email local part must contain at least one letter.';
+        isValid = false;
+    } else if (!allowedDomains.includes(domain)) {
+        document.getElementById('error-email').innerText = '*Invalid domain.';
+        isValid = false;
+    } else if (localPart.length > 64) { // Check if local part is greater than 64 characters
+        document.getElementById('error-email').innerText = '*Email local part cannot exceed 64 characters.';
+        isValid = false;
+    }
+}
+
+
+    // Validate Phone
+    if (phone === '') {
+      document.getElementById('error-phone').innerText = '*Phone Number is required.';
+      isValid = false;
+    } else if (!/^\d{10}$/.test(phone)) {
+      document.getElementById('error-phone').innerText = '*Phone Number must be 10 digits.';
+      isValid = false;
+    }else if (!/^[6-9]\d{9}$/.test(phone)) {
+      document.getElementById('error-phone').innerText = '*Phone Number should start with 6, 7, 8, or 9.';
+      isValid = false;
+    }
+
+    // Validate Password
+    // Validate Password
+    if (password === '') {
+      document.getElementById('error-password').innerText = '*Password is required.';
+      isValid = false;
+    } else if (password.length < 8||password.length > 20) {
+      document.getElementById('error-password').innerText = '*Password should be between 8 and 20 characters.';
+      isValid = false;
+    } else  if (!/(?=.*[A-Z])/.test(password)) {
+        document.getElementById('error-password').innerText = '*Password must contain at least one uppercase letter.';
+        isValid = false;
+      }
+      // Check for at least one symbol
+      else if (!/(?=.*\W)/.test(password)) {
+        document.getElementById('error-password').innerText += '*Password must contain at least one symbol.';
+        isValid = false;
+      }
+      // Check for at least one number
+      else if (!/(?=.*\d)/.test(password)) {
+        document.getElementById('error-password').innerText += '*Password must contain at least one number.';
+        isValid = false;
+      }
+  
+
+  
+
+    // Validate Confirm Password
+    if (confirmPassword === '') {
+      document.getElementById('error-confirm-password').innerText = '*Confirm Password is required.';
+      isValid = false;
+    } else if (confirmPassword !== password) {
+      document.getElementById('error-confirm-password').innerText = '*Passwords do not match.';
+      isValid = false;
+    }
+    if (!isValidTerms) {
+      isValid = false;
+    }
+
+    return isValid;
+  }
+  function adjustLayout() {
+  var errorMessage = document.querySelector('.error-message');
+  var nextField = errorMessage.nextElementSibling; // Get the next field after the error message
+
+  if (errorMessage && nextField) {
+    var errorMessageHeight = errorMessage.offsetHeight;
+    nextField.style.marginTop = errorMessageHeight + 'px'; // Set margin-top of the next field
+  }
+}
+
+// Call the adjustLayout function whenever there's a change in the input fields
+document.querySelectorAll('.input-box input').forEach(function(input) {
+  input.addEventListener('input', adjustLayout);
+});
+
+// Call the adjustLayout function initially
+adjustLayout();
+
+
+</script>
+
+  </body>
+</html>
